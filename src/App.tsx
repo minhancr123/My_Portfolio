@@ -90,7 +90,7 @@ const ProjectCard = ({ title, desc, tags, image, link, github, icon: Icon, color
 
 // -- COMPONENT: CodingLaptop --
 const CodingLaptop = () => {
-  const [codeLines, setCodeLines] = useState([
+  const [codeLines] = useState([
     "const developer = {",
     "  name: 'Huynh Minh An',",
     "  skills: ['React', 'Node'],",
