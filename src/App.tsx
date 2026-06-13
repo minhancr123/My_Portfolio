@@ -1,6 +1,80 @@
 import { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { ArrowDown, Github, Linkedin, Mail, ExternalLink, Code, Video, ShoppingCart, MapPin, GraduationCap, ArrowUp } from 'lucide-react';
+import { ArrowDown, Github, Linkedin, Mail, ExternalLink, Code, Video, ShoppingCart, MapPin, GraduationCap, ArrowUp, X, Quote, Send, CheckSquare } from 'lucide-react';
+
+const projectsData = [
+  {
+    id: "movieweb",
+    title: "MovieWeb V2",
+    desc: "A high-performance Netflix clone built with Next.js 14. Features HLS adaptive streaming, server-side rendering, and a custom local-first watch history system.",
+    fullDescription: "MovieWeb V2 is a comprehensive video streaming platform designed to mimic the core features of Netflix. It utilizes modern web technologies to deliver a seamless and highly performant user experience.",
+    features: [
+      "HLS adaptive streaming for varying network conditions",
+      "Server-Side Rendering (SSR) for improved SEO and initial load times",
+      "Local-first watch history tracking without needing a user account",
+      "Responsive, cinematic UI with dark mode"
+    ],
+    tags: ["Next.js 14", "TypeScript", "Tailwind", "HLS.js"],
+    image: "/projects/movieweb-demo.png",
+    icon: Video,
+    color: "from-red-500",
+    link: "https://movie-web-green-sigma.vercel.app/phim/sieu-nhan-dien-quang-geed",
+    github: "https://github.com/minhancr123/movie_web"
+  },
+  {
+    id: "megamart",
+    title: "MegaMart E-commerce",
+    desc: "Enterprise-grade e-commerce platform with Microservices architecture. Includes real-time inventory, flash sales, and comprehensive admin dashboard.",
+    fullDescription: "MegaMart is a robust e-commerce application built to handle high traffic and complex transactions. Its microservices architecture ensures scalability and maintainability across various business domains.",
+    features: [
+      "Microservices architecture separating users, products, and orders",
+      "Real-time inventory updates and conflict resolution during checkout",
+      "Flash sale system with high concurrency handling using Redis",
+      "Comprehensive admin dashboard for product and order management"
+    ],
+    tags: ["Next.js", "NestJS", "PostgreSQL", "Docker", "Redis"],
+    image: "/projects/megamart-demo.png",
+    icon: ShoppingCart,
+    color: "from-blue-500",
+    link: "https://mega-mart-amber.vercel.app/",
+    github: "https://github.com/minhancr123/MegaMart"
+  },
+  {
+    id: "badmintonshop",
+    title: "Badminton Shop",
+    desc: "A full-featured e-commerce platform dedicated to badminton equipment, featuring product filtering, cart management, and secure checkout.",
+    fullDescription: "Badminton Shop is an e-commerce website built to provide a seamless shopping experience for badminton enthusiasts. It includes an intuitive UI for browsing products, a robust shopping cart system, and an admin panel for inventory management.",
+    features: [
+      "Dynamic product catalog with advanced filtering and search",
+      "User authentication and secure session management",
+      "Interactive shopping cart with real-time total calculation",
+      "Responsive design optimized for both mobile and desktop"
+    ],
+    tags: ["React", "Node.js", "Express", "MongoDB"],
+    image: "/projects/badmintonshop-demo.png",
+    icon: ShoppingCart,
+    color: "from-emerald-500",
+    link: "https://github.com/minhancr123/BadmintonShop",
+    github: "https://github.com/minhancr123/BadmintonShop"
+  },
+  {
+    id: "quanlycongviec",
+    title: "Task Management",
+    desc: "A comprehensive work management tool designed to help individuals and teams organize tasks, track progress, and boost productivity.",
+    fullDescription: "Task Manager (Quản Lý Công Việc) is a productivity application that allows users to create, assign, and track tasks. It features an intuitive interface for managing daily workflows and project milestones.",
+    features: [
+      "Task creation, assignment, and status tracking",
+      "Role-based access control for team collaboration",
+      "Real-time task updates and deadline management",
+      "Clean, modern UI designed for high productivity"
+    ],
+    tags: ["React", "TypeScript", "Tailwind CSS"],
+    icon: CheckSquare,
+    color: "from-orange-500",
+    link: "https://github.com/minhancr123/quanlycongviec",
+    github: "https://github.com/minhancr123/quanlycongviec"
+  }
+];
 
 const ScrollToTop = () => {
   const { scrollYProgress } = useScroll();
@@ -30,7 +104,7 @@ const ScrollToTop = () => {
 };
 
 // -- COMPONENT: ProjectCard --
-const ProjectCard = ({ title, desc, tags, image, link, github, icon: Icon, color }: any) => {
+const ProjectCard = ({ title, desc, tags, image, link, github, icon: Icon, color, onClick }: any) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -38,7 +112,8 @@ const ProjectCard = ({ title, desc, tags, image, link, github, icon: Icon, color
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.5 }}
       whileHover={{ y: -10 }}
-      className="group relative overflow-hidden rounded-3xl bg-slate-800/50 border border-slate-700 hover:border-blue-500/50 transition-colors duration-500 shadow-2xl"
+      onClick={onClick}
+      className="group relative overflow-hidden rounded-3xl bg-slate-800/50 border border-slate-700 hover:border-blue-500/50 transition-colors duration-500 shadow-2xl cursor-pointer"
     >
       <div className={`absolute -inset-0.5 bg-gradient-to-r ${color} to-purple-600 opacity-0 group-hover:opacity-20 blur transition duration-500`}></div>
 
@@ -182,12 +257,225 @@ const CodingLaptop = () => {
   );
 };
 
+// -- COMPONENT: ExperienceCard --
+const ExperienceCard = ({ role, period, company, location, logo, description, techStack }: any) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.5 }}
+      className="relative pl-8 md:pl-0"
+    >
+      <div className="md:grid md:grid-cols-5 md:gap-8 items-start">
+        {/* Timeline dots for desktop */}
+        <div className="hidden md:flex flex-col items-center col-span-1 pt-2">
+          <div className="w-16 h-16 rounded-full bg-slate-800 border-4 border-slate-900 shadow-xl flex items-center justify-center overflow-hidden shrink-0 z-10 relative">
+            {logo ? (
+              <img src={logo} alt={company} className="w-full h-full object-contain p-2 bg-white" />
+            ) : (
+              <div className="w-full h-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-xl">
+                {company.charAt(0)}
+              </div>
+            )}
+          </div>
+          <div className="w-0.5 h-full bg-gradient-to-b from-blue-500/50 to-transparent my-4 min-h-[100px]"></div>
+        </div>
+
+        {/* Content */}
+        <div className="md:col-span-4 bg-slate-800/50 border border-slate-700 hover:border-blue-500/50 transition-colors duration-500 rounded-3xl p-6 shadow-2xl group relative overflow-hidden">
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-10 blur transition duration-500"></div>
+
+          <div className="relative">
+            {/* Mobile Logo & Header */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+              <div className="flex items-center gap-4">
+                <div className="md:hidden w-12 h-12 rounded-full bg-white border-2 border-slate-700 shadow-xl flex items-center justify-center overflow-hidden shrink-0">
+                  {logo ? (
+                    <img src={logo} alt={company} className="w-full h-full object-contain p-1" />
+                  ) : (
+                    <div className="w-full h-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold">
+                      {company.charAt(0)}
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-white group-hover:text-blue-400 transition-colors">{role}</h3>
+                  <div className="text-lg text-slate-300 font-medium">{company}</div>
+                </div>
+              </div>
+
+              <div className="flex flex-col md:items-end text-sm text-slate-400">
+                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-blue-500"></span> {period}</span>
+                <span className="flex items-center gap-1 mt-1"><MapPin size={14} /> {location}</span>
+              </div>
+            </div>
+
+            {/* Description List */}
+            <ul className="space-y-3 mb-6 text-slate-400 text-sm leading-relaxed">
+              {description.map((item: string, i: number) => (
+                <li key={i} className="flex items-start gap-2">
+                  <span className="text-blue-500 mt-1">•</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+
+            {/* Tech Stack */}
+            <div className="flex flex-wrap gap-2 pt-4 border-t border-slate-700/50">
+              {techStack.map((tech: string) => (
+                <span key={tech} className="px-3 py-1 text-xs font-medium bg-slate-900/50 text-slate-300 rounded-full border border-slate-600">
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+// -- COMPONENT: ProjectModal --
+const ProjectModal = ({ project, onClose }: any) => {
+  if (!project) return null;
+  const Icon = project.icon;
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6"
+      >
+        <div
+          className="absolute inset-0 bg-slate-950/80 backdrop-blur-md cursor-pointer"
+          onClick={onClose}
+        />
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 20 }}
+          className="relative w-full max-w-4xl max-h-[90vh] bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl overflow-hidden flex flex-col"
+        >
+          {/* Close Button */}
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 z-10 p-2 bg-black/50 hover:bg-black text-white rounded-full transition-colors backdrop-blur-sm"
+          >
+            <X size={20} />
+          </button>
+
+          {/* Scrollable Content */}
+          <div className="overflow-y-auto relative flex-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            {/* Header / Image */}
+            <div className="relative h-64 md:h-80 bg-slate-800 flex items-center justify-center shrink-0">
+              {project.image ? (
+                <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+              ) : (
+                <div className={`w-32 h-32 rounded-full ${project.color.replace('from-', 'bg-')} bg-opacity-20 flex items-center justify-center`}>
+                  <Icon className="w-16 h-16 text-white" />
+                </div>
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent" />
+              <div className="absolute bottom-0 left-0 p-8 w-full">
+                <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">{project.title}</h2>
+                <div className="flex flex-wrap gap-2">
+                  {project.tags.map((tag: string) => (
+                    <span key={tag} className="px-3 py-1 text-xs font-medium bg-slate-800/80 text-slate-300 rounded-full border border-slate-600 backdrop-blur-sm">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Body */}
+            <div className="p-8 space-y-8">
+              <div className="flex flex-col sm:flex-row gap-4">
+                {project.github && project.github !== "#" && (
+                  <a href={project.github} target="_blank" className="btn-secondary flex items-center gap-2 flex-1 justify-center">
+                    <Github size={18} /> View Source
+                  </a>
+                )}
+                {project.link && project.link !== "#" && (
+                  <a href={project.link} target="_blank" className="btn-primary flex items-center gap-2 flex-1 justify-center">
+                    <ExternalLink size={18} /> Live Demo
+                  </a>
+                )}
+              </div>
+
+              <div>
+                <h3 className="text-xl font-bold text-white mb-4">Overview</h3>
+                <p className="text-slate-300 leading-relaxed text-lg">
+                  {project.fullDescription || project.desc}
+                </p>
+              </div>
+
+              {project.features && (
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-4">Key Features</h3>
+                  <ul className="space-y-3">
+                    {project.features.map((feature: string, i: number) => (
+                      <li key={i} className="flex items-start gap-3 text-slate-300">
+                        <span className="text-blue-500 mt-1">✓</span>
+                        <span className="leading-relaxed">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+};
+
+// -- COMPONENT: CustomCursor --
+const CustomCursor = () => {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const updateMousePosition = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', updateMousePosition);
+    return () => window.removeEventListener('mousemove', updateMousePosition);
+  }, []);
+
+  return (
+    <motion.div
+      className="fixed top-0 left-0 w-8 h-8 rounded-full border-2 border-blue-400 pointer-events-none z-[999] hidden md:block mix-blend-screen"
+      animate={{
+        x: mousePosition.x - 16,
+        y: mousePosition.y - 16,
+      }}
+      transition={{ type: "spring", stiffness: 500, damping: 28, mass: 0.5 }}
+    >
+      <div className="absolute inset-0 bg-blue-500/20 rounded-full blur-sm" />
+    </motion.div>
+  );
+};
+
 function App() {
   const { scrollYProgress } = useScroll();
   const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const [selectedProject, setSelectedProject] = useState<any>(null);
+
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [selectedProject]);
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-50 font-sans selection:bg-blue-500/30">
+      <CustomCursor />
       <ScrollToTop />
 
       {/* Progress Bar */}
@@ -196,11 +484,11 @@ function App() {
       {/* Navbar */}
       <nav className="fixed top-0 w-full z-40 backdrop-blur-xl bg-slate-950/80 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="font-bold text-2xl tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
+          <a href="#home" className="font-bold text-2xl tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400 hover:opacity-80 transition-opacity">
             DEV.Pro
-          </div>
+          </a>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
-            {['Home', 'About', 'Projects', 'Skills', 'Contact'].map((item) => (
+            {['Home', 'About', 'Experience', 'Projects', 'Skills', 'Contact'].map((item) => (
               <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-blue-400 transition-colors relative group">
                 {item}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-400 transition-all group-hover:w-full"></span>
@@ -286,8 +574,8 @@ function App() {
                   View Projects
                   <ArrowDown size={18} className="group-hover:translate-y-1 transition-transform" />
                 </a>
-                <a href="/cv.pdf" download className="btn-secondary flex items-center justify-center gap-2">
-                  <ExternalLink size={18} /> Download CV
+                <a href="/cv.pdf" target="_blank" rel="noopener noreferrer" className="btn-secondary flex items-center justify-center gap-2">
+                  <ExternalLink size={18} /> View CV
                 </a>
               </motion.div>
             </div>
@@ -374,6 +662,60 @@ function App() {
         </div>
       </section>
 
+      {/* Experience Section */}
+      <section id="experience" className="py-32 relative">
+        <div className="max-w-5xl mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="mb-16"
+          >
+            <h2 className="text-sm font-bold tracking-widest text-blue-500 uppercase mb-3">My Journey</h2>
+            <h3 className="text-4xl md:text-5xl font-bold text-white">Work Experience</h3>
+          </motion.div>
+
+          <div className="space-y-12 relative">
+            <div className="absolute left-[16px] md:left-[39px] top-0 bottom-0 w-0.5 bg-slate-800 hidden md:block"></div>
+
+            <ExperienceCard
+              role="Fullstack Intern"
+              company="Antoree"
+              period="Feb 2025 – Jul 2025"
+              location="Ho Chi Minh City, Vietnam"
+              logo="/antoree-logo.png"
+              description={[
+                "Developed a highly engaging, interactive English testing interface tailored for students under 16 on a 1-on-1 online learning platform.",
+                "Integrated AI models trained on teachers' lesson plans to automatically generate periodic assessment tests simulating real exam conditions.",
+                "Implemented automated AI grading for multiple-choice questions, while building a dedicated workflow for teachers to evaluate speaking tasks.",
+                "Enhanced user engagement by incorporating rich illustrative images into test questions to maintain student interest.",
+                "Built a real-time proctoring and monitoring system using WebSockets, allowing admins to directly supervise students during exams to prevent cheating."
+              ]}
+              techStack={["React", "Node.js", "WebSockets", "AI Integration"]}
+            />
+
+            <ExperienceCard
+              role="Fullstack Developer"
+              company="SOF – Solution Of Future"
+              period="Aug 2025 – Mar 2026"
+              location="Ho Chi Minh City, Vietnam"
+              logo="/sof-logo.png"
+              description={[
+                "Developed B2B SaaS products for POS, warehouse management, pallet tracking, HRM, and payroll systems used by enterprise customers.",
+                "Built invoice management features and real-time revenue dashboards, enabling business users to track sales by day, month, year, and product trends.",
+                "Developed warehouse and pallet management modules with QR/barcode synchronization between mobile devices and backend services.",
+                "Improved inventory validation, stock tracking accuracy, and operational efficiency through warehouse workflow automation.",
+                "Implemented HRM and payroll features with complex salary calculation logic, attendance tracking, and employee management workflows.",
+                "Optimized attendance queries using indexing and keyset pagination, reducing response time from 3000ms to 100ms.",
+                "Applied frontend data prefetching techniques to improve page responsiveness and user experience.",
+                "Collaborated using Git workflow, including branching, pull requests, code review, and feature delivery."
+              ]}
+              techStack={["PHP", "ReactJS", "ElectronJS", "MySQL", "CouchDB"]}
+            />
+          </div>
+        </div>
+      </section>
+
       {/* Projects Section */}
       <section id="projects" className="py-32 relative">
         <div className="max-w-7xl mx-auto px-6">
@@ -388,40 +730,20 @@ function App() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* MovieWeb */}
-            <ProjectCard
-              title="MovieWeb V2"
-              desc="A high-performance Netflix clone built with Next.js 14. Features HLS adaptive streaming, server-side rendering, and a custom local-first watch history system."
-              tags={["Next.js 14", "TypeScript", "Tailwind", "HLS.js"]}
-              image="/projects/movieweb-demo.png"
-              icon={Video}
-              color="from-red-500"
-              link="https://movie-web-green-sigma.vercel.app/phim/sieu-nhan-dien-quang-geed"
-              github="https://github.com/minhancr123/movie_web"
-            />
-
-            {/* MegaMart */}
-            <ProjectCard
-              title="MegaMart E-commerce"
-              desc="Enterprise-grade e-commerce platform with Microservices architecture. Includes real-time inventory, flash sales, and comprehensive admin dashboard."
-              tags={["Next.js", "NestJS", "PostgreSQL", "Docker", "Redis"]}
-              image="/projects/megamart-demo.png"
-              icon={ShoppingCart}
-              color="from-blue-500"
-              link="https://mega-mart-amber.vercel.app/"
-              github="https://github.com/minhancr123/MegaMart"
-            />
-
-            {/* Portfolio */}
-            <ProjectCard
-              title="Modern Portfolio"
-              desc="The website you are looking at right now. Built with Vite, React, and Framer Motion for buttery smooth animations and transitions."
-              tags={["React", "Vite", "Framer Motion", "Lucide"]}
-              icon={Code}
-              color="from-purple-500"
-              link="#"
-              github="#"
-            />
+            {projectsData.map((project) => (
+              <ProjectCard
+                key={project.id}
+                title={project.title}
+                desc={project.desc}
+                tags={project.tags}
+                image={project.image}
+                icon={project.icon}
+                color={project.color}
+                link={project.link}
+                github={project.github}
+                onClick={() => setSelectedProject(project)}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -518,44 +840,79 @@ function App() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-32 relative overflow-hidden">
+      <section id="contact" className="py-32 relative overflow-hidden border-t border-white/5">
         <div className="absolute inset-0 bg-blue-600/5 skew-y-3 transform origin-bottom-right" />
 
-        <div className="max-w-4xl mx-auto px-6 relative z-10 text-center">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-bold mb-8"
-          >
-            Let's Work Together
-          </motion.h2>
-          <p className="text-xl text-slate-400 mb-12">
-            I'm currently looking for new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!
-          </p>
-
-          <div className="flex flex-col items-center gap-6">
-            <motion.a
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              href="mailto:huynhminhanc5.pbchau@gmail.com"
-              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full text-white font-bold text-lg shadow-2xl hover:shadow-blue-500/50 transition-all"
+        <div className="max-w-6xl mx-auto px-6 relative z-10">
+          <div className="text-center mb-16">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-4xl md:text-5xl font-bold mb-4"
             >
-              <Mail size={24} />
-              huynhminhanc5.pbchau@gmail.com
-            </motion.a>
-            <p className="text-sm text-slate-500">Click to send direct email</p>
+              Let's Work Together
+            </motion.h2>
+            <p className="text-xl text-slate-400">
+              I'm currently looking for new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!
+            </p>
           </div>
 
-          <div className="mt-16 flex justify-center gap-8">
-            <a href="https://github.com/minhancr123" target="_blank" className="p-4 bg-slate-800 rounded-full hover:bg-slate-700 transition-colors" title="GitHub">
-              <Github size={24} className="text-white" />
-            </a>
-            <a href="https://www.linkedin.com/in/hu%E1%BB%B3nh-minh-an-101899347/" target="_blank" className="p-4 bg-slate-800 rounded-full hover:bg-blue-700 transition-colors" title="LinkedIn">
-              <Linkedin size={24} className="text-white" />
-            </a>
-            <a href="https://www.facebook.com/an.huynh.846931/" target="_blank" className="p-4 bg-slate-800 rounded-full hover:bg-blue-600 transition-colors" title="Facebook">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg>
-            </a>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            {/* Contact Info */}
+            <div className="space-y-8">
+              <div className="bg-slate-800/50 border border-slate-700 p-8 rounded-3xl">
+                <h3 className="text-2xl font-bold text-white mb-6">Contact Information</h3>
+                <a href="mailto:huynhminhanc5.pbchau@gmail.com" className="flex items-center gap-4 text-slate-300 hover:text-blue-400 transition-colors mb-6 group">
+                  <div className="w-12 h-12 bg-slate-900 rounded-full flex items-center justify-center group-hover:bg-blue-500/20 transition-colors">
+                    <Mail size={20} />
+                  </div>
+                  <div>
+                    <div className="text-sm text-slate-500">Email Me</div>
+                    <div className="font-medium break-all">huynhminhanc5.pbchau@gmail.com</div>
+                  </div>
+                </a>
+
+                <div className="flex gap-4 pt-6 border-t border-slate-700/50">
+                  <a href="https://github.com/minhancr123" target="_blank" className="p-3 bg-slate-900 rounded-full hover:bg-slate-700 text-white transition-colors" title="GitHub">
+                    <Github size={20} />
+                  </a>
+                  <a href="https://www.linkedin.com/in/hu%E1%BB%B3nh-minh-an-101899347/" target="_blank" className="p-3 bg-slate-900 rounded-full hover:bg-blue-700 text-white transition-colors" title="LinkedIn">
+                    <Linkedin size={20} />
+                  </a>
+                  <a href="https://www.facebook.com/an.huynh.846931/" target="_blank" className="p-3 bg-slate-900 rounded-full hover:bg-blue-600 text-white transition-colors" title="Facebook">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Contact Form */}
+            <form
+              className="bg-slate-800/80 backdrop-blur-xl border border-slate-700 p-8 rounded-3xl shadow-2xl space-y-6"
+              onSubmit={(e) => {
+                e.preventDefault();
+                alert("Thank you for your message! This form is currently in simulation mode. Please use the email link directly to reach me.");
+              }}
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-slate-400">Your Name</label>
+                  <input type="text" required placeholder="John Doe" className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-slate-400">Email Address</label>
+                  <input type="email" required placeholder="john@example.com" className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-slate-400">Message</label>
+                <textarea required rows={4} placeholder="How can I help you?" className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all resize-none"></textarea>
+              </div>
+              <button type="submit" className="w-full btn-primary flex items-center justify-center gap-2">
+                Send Message <Send size={18} />
+              </button>
+            </form>
           </div>
         </div>
       </section>
@@ -565,6 +922,14 @@ function App() {
         <p>© {new Date().getFullYear()} Huỳnh Minh An. All rights reserved.</p>
         <p className="mt-2">Built with <span className="text-white">Vite</span>, <span className="text-white">React</span> & <span className="text-white">Tailwind</span></p>
       </footer>
+
+      {/* Project Modal */}
+      {selectedProject && (
+        <ProjectModal
+          project={selectedProject}
+          onClose={() => setSelectedProject(null)}
+        />
+      )}
     </div>
   );
 }
