@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { ArrowDown, Github, Linkedin, Mail, ExternalLink, Code, Video, ShoppingCart, MapPin, GraduationCap, ArrowUp, X, Quote, Send, CheckSquare } from 'lucide-react';
+import { ArrowDown, Github, Linkedin, Mail, ExternalLink, Code, Video, ShoppingCart, MapPin, GraduationCap, ArrowUp, X, Send, CheckSquare } from 'lucide-react';
 
 const projectsData = [
   {
