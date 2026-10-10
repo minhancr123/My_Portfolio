@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local dependency caches
+.pnpm-store/
+.pnpm-cache/
+.npm-cache/

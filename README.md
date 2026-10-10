@@ -1,73 +1,37 @@
-# React + TypeScript + Vite
+# Huỳnh Minh An — Full Stack Developer Portfolio & CV
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, high-impact portfolio and interactive CV engineered with **React 19**, **TypeScript**, **Tailwind CSS**, and **Lucide Icons**, designed specifically to impress Tech Recruiters, HR Managers, and Engineering Leads.
 
-Currently, two official plugins are available:
+## Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **⚡ Recruiter Fast-Track ("Bảng Tóm Tắt Nhanh Cho HR")**: Dedicated 15-second cheat sheet highlighting Target Role, Experience (1+ year), Availability (Immediate), Core Stack, Academic Honors (GPA 3.52/4.0 & 1st Prize Research), and Immediate Business Value.
+- **🌐 Bilingual Support (Tiếng Việt 🇻🇳 / English 🇬🇧)**: 1-click dynamic switch across all sections, project details, architecture case studies, and career timeline.
+- **🌓 Dark / Light Theme Toggle**: Modern deep obsidian (`#090D16`) luxury dark theme and crisp high-contrast light theme.
+- **📄 Interactive ATS CV Modal & 1-Click PDF Download**: Allows HR to preview a clean, ATS-compliant printable CV in-browser (`window.print()`) or download `public/cv.pdf` with one click.
+- **🚀 Architectural Case Studies (Modal Deep Dive)**: Detailed breakdown for flagship projects (GASCOLAE, MegaMart, CineVN) detailing Core Technical Challenges, Engineering Solutions (concurrency locks, BullMQ workers, AI grounding), and Measurable Impact.
+- **📊 Proof-by-Numbers Metrics**: Key highlights including 1+ Year experience, 14 production UAV platforms at CT Group, GPA 3.52/4.0 at HUIT, and 1st Prize Scientific Research.
+- **📬 1-Click Recruiter Contact**: Instant email copy to clipboard with toast notifications, direct mailto link, GitHub, and LinkedIn links.
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Framework**: React 19, TypeScript
+- **Styling**: Tailwind CSS, Glassmorphism, Responsive Mobile-First
+- **Icons**: Lucide React
+- **Build Tool**: Vite 7
 
-## Expanding the ESLint configuration
+## Development & Verification
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+```sh
+# Start local development server
+npm run dev
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+# Type check
+npx tsc -b
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+# Linting
+npm run lint
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Production build & preview
+npm run build
+npm run preview
 ```

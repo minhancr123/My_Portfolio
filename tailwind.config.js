@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+    darkMode: 'class',
     content: [
         "./index.html",
         "./src/**/*.{js,ts,jsx,tsx}",
@@ -7,17 +8,21 @@ export default {
     theme: {
         extend: {
             colors: {
-                primary: "#3B82F6", // Blue
-                dark: "#0F172A",    // Slate 900
+                primary: "#6366F1", // Indigo 500
+                dark: "#090D16",    // Deep obsidian
                 secondary: "#64748B", // Slate 500
             },
             fontFamily: {
-                heading: ["Inter", "sans-serif"],
-                body: ["Inter", "sans-serif"],
+                sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
+                heading: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
+                body: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
+                mono: ['"JetBrains Mono"', 'monospace'],
             },
             animation: {
-                'fade-in': 'fadeIn 1s ease-out',
-                'slide-up': 'slideUp 0.5s ease-out',
+                'fade-in': 'fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+                'slide-up': 'slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+                'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                'float': 'float 6s ease-in-out infinite',
             },
             keyframes: {
                 fadeIn: {
@@ -25,8 +30,12 @@ export default {
                     '100%': { opacity: '1' },
                 },
                 slideUp: {
-                    '0%': { transform: 'translateY(20px)', opacity: '0' },
+                    '0%': { transform: 'translateY(16px)', opacity: '0' },
                     '100%': { transform: 'translateY(0)', opacity: '1' },
+                },
+                float: {
+                    '0%, 100%': { transform: 'translateY(0)' },
+                    '50%': { transform: 'translateY(-10px)' },
                 }
             }
         },
