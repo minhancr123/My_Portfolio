@@ -29,7 +29,8 @@ import {
   Activity,
   Cpu,
   Layers,
-  Play
+  Play,
+  Phone
 } from 'lucide-react'
 
 // Types
@@ -850,6 +851,19 @@ function App() {
                     <Copy size={13} className="text-indigo-400" />
                     <span>huynhminhanc5.pbchau@gmail.com</span>
                   </button>
+
+                  <a
+                    href="tel:+84869428117"
+                    className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold border transition-all ${
+                      darkMode
+                        ? 'bg-slate-900/60 border-slate-800 text-slate-300 hover:border-slate-700'
+                        : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200'
+                    }`}
+                    title="Call +84 869 428 117"
+                  >
+                    <Phone size={13} className="text-emerald-400" />
+                    <span>+84 869 428 117</span>
+                  </a>
 
                   <a
                     href="https://www.linkedin.com/in/hu%E1%BB%B3nh-minh-an-101899347/"
@@ -1953,6 +1967,7 @@ function App() {
                 </p>
                 <div className="flex flex-wrap gap-y-1 gap-x-4 text-xs font-medium text-slate-600 pt-1">
                   <span>📍 Ho Chi Minh City, Vietnam</span>
+                  <span>📞 +84 869 428 117</span>
                   <span>✉️ huynhminhanc5.pbchau@gmail.com</span>
                   <span>🔗 linkedin.com/in/huỳnh-minh-an-101899347</span>
                   <span>💻 github.com/minhancr123</span>
