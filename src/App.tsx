@@ -30,7 +30,8 @@ import {
   Cpu,
   Layers,
   Play,
-  Phone
+  Phone,
+  Globe
 } from 'lucide-react'
 
 // Types
@@ -1579,15 +1580,17 @@ function App() {
                   </p>
 
                   <div className="mt-4 flex flex-wrap gap-2 text-xs">
-                    <span className={`px-2.5 py-1 rounded-xl border ${
+                    <span className={`px-2.5 py-1 rounded-xl border flex items-center gap-1.5 ${
                       darkMode ? 'bg-slate-950 border-slate-800 text-slate-300' : 'bg-slate-100 border-slate-300 text-slate-700'
                     }`}>
-                      🎓 Classification: Very Good / Top 5%
+                      <GraduationCap size={13} className="text-emerald-400" />
+                      <span>Classification: Very Good / Top 5%</span>
                     </span>
-                    <span className={`px-2.5 py-1 rounded-xl border ${
+                    <span className={`px-2.5 py-1 rounded-xl border flex items-center gap-1.5 ${
                       darkMode ? 'bg-slate-950 border-slate-800 text-slate-300' : 'bg-slate-100 border-slate-300 text-slate-700'
                     }`}>
-                      🌐 English: VSTEP B2 (Professional Working Proficiency)
+                      <Globe size={13} className="text-cyan-400" />
+                      <span>English: VSTEP B2 (Professional Working Proficiency)</span>
                     </span>
                   </div>
                 </div>
@@ -1965,12 +1968,27 @@ function App() {
                 <p className="text-lg font-bold text-indigo-600">
                   Full Stack Developer (Next.js / NestJS / TypeScript / PostgreSQL / Practical AI)
                 </p>
-                <div className="flex flex-wrap gap-y-1 gap-x-4 text-xs font-medium text-slate-600 pt-1">
-                  <span>📍 Ho Chi Minh City, Vietnam</span>
-                  <span>📞 +84 869 428 117</span>
-                  <span>✉️ huynhminhanc5.pbchau@gmail.com</span>
-                  <span>🔗 linkedin.com/in/huỳnh-minh-an-101899347</span>
-                  <span>💻 github.com/minhancr123</span>
+                <div className="flex flex-wrap gap-y-1.5 gap-x-4 text-xs font-medium text-slate-600 pt-1">
+                  <span className="flex items-center gap-1.5">
+                    <MapPin size={12} className="text-slate-500 shrink-0" />
+                    <span>Ho Chi Minh City, Vietnam</span>
+                  </span>
+                  <a href="tel:+84869428117" className="flex items-center gap-1.5 hover:text-indigo-600 transition-colors">
+                    <Phone size={12} className="text-slate-500 shrink-0" />
+                    <span>+84 869 428 117</span>
+                  </a>
+                  <a href="mailto:huynhminhanc5.pbchau@gmail.com" className="flex items-center gap-1.5 hover:text-indigo-600 transition-colors">
+                    <Mail size={12} className="text-slate-500 shrink-0" />
+                    <span>huynhminhanc5.pbchau@gmail.com</span>
+                  </a>
+                  <a href="https://linkedin.com/in/huỳnh-minh-an-101899347" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-indigo-600 transition-colors">
+                    <Linkedin size={12} className="text-slate-500 shrink-0" />
+                    <span>linkedin.com/in/huỳnh-minh-an-101899347</span>
+                  </a>
+                  <a href="https://github.com/minhancr123" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-indigo-600 transition-colors">
+                    <Github size={12} className="text-slate-500 shrink-0" />
+                    <span>github.com/minhancr123</span>
+                  </a>
                 </div>
               </div>
 
