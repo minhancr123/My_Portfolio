@@ -462,6 +462,7 @@ function App() {
   const [activeModalProject, setActiveModalProject] = useState<Project | null>(null)
   const [cvModalOpen, setCvModalOpen] = useState(false)
   const [cvModalLangOverride, setCvModalLangOverride] = useState<Language | null>(null)
+  const [cvViewMode, setCvViewMode] = useState<'ats' | 'pdf'>('ats')
   const activeCvLang = cvModalLangOverride ?? lang
   const [toastMessage, setToastMessage] = useState<string | null>(null)
   const [pipelineStep, setPipelineStep] = useState<number>(0)
@@ -633,17 +634,36 @@ function App() {
               {darkMode ? <Sun size={16} /> : <Moon size={16} />}
             </button>
 
-            {/* View CV ATS Modal Button */}
+            {/* View ATS Resume */}
             <button
-              onClick={() => setCvModalOpen(true)}
-              className={`hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold rounded-xl border transition-all ${
+              onClick={() => {
+                setCvViewMode('ats')
+                setCvModalOpen(true)
+              }}
+              className={`hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold rounded-xl border transition-all ${
+                darkMode
+                  ? 'border-slate-700 text-slate-300 hover:bg-slate-800 hover:border-slate-600'
+                  : 'border-slate-300 text-slate-700 hover:bg-slate-100'
+              }`}
+            >
+              <FileText size={14} className="text-indigo-400" />
+              <span>ATS Resume</span>
+            </button>
+
+            {/* View Original CV Online */}
+            <button
+              onClick={() => {
+                setCvViewMode('pdf')
+                setCvModalOpen(true)
+              }}
+              className={`hidden md:inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold rounded-xl border transition-all ${
                 darkMode
                   ? 'border-indigo-500/40 text-indigo-300 hover:bg-indigo-500/10'
                   : 'border-indigo-600 text-indigo-600 hover:bg-indigo-50'
               }`}
             >
               <Eye size={14} />
-              <span>{lang === 'en' ? 'View CV (ATS)' : 'Xem CV'}</span>
+              <span>{lang === 'en' ? 'Original CV (PDF)' : 'CV Gốc (PDF)'}</span>
             </button>
 
             {/* Download CV PDF Direct Button */}
@@ -714,14 +734,29 @@ function App() {
               <button
                 onClick={() => {
                   setMobileMenuOpen(false)
+                  setCvViewMode('pdf')
+                  setCvModalOpen(true)
+                }}
+                className={`w-full py-2.5 rounded-xl border text-sm font-bold flex items-center justify-center gap-2 ${
+                  darkMode ? 'border-indigo-500/50 text-indigo-300 bg-indigo-950/40' : 'border-indigo-300 text-indigo-700 bg-indigo-50'
+                }`}
+              >
+                <Eye size={16} />
+                {lang === 'en' ? 'View Original CV (PDF Online)' : 'Xem CV Gốc Trực Tuyến (PDF)'}
+              </button>
+
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false)
+                  setCvViewMode('ats')
                   setCvModalOpen(true)
                 }}
                 className={`w-full py-2.5 rounded-xl border text-sm font-bold flex items-center justify-center gap-2 ${
                   darkMode ? 'border-slate-700 text-slate-200 bg-slate-900' : 'border-slate-300 text-slate-800 bg-slate-100'
                 }`}
               >
-                <Eye size={16} />
-                {lang === 'en' ? 'View Full ATS Resume' : 'Xem CV Chi Tiết'}
+                <FileText size={16} />
+                {lang === 'en' ? 'View ATS Resume (Text)' : 'Xem CV Chuẩn ATS'}
               </button>
             </div>
           </div>
@@ -802,38 +837,56 @@ function App() {
 
                 {/* Primary Action Buttons */}
                 <div className="pt-2 flex flex-wrap items-center gap-3 sm:gap-4">
-                  {/* Download CV PDF Direct */}
-                  <a
-                    href="/cv.pdf"
-                    download="Huynh_Minh_An_FullStack_Developer_CV.pdf"
-                    onClick={() => showToast(lang === 'en' ? 'Downloading official CV (PDF)...' : 'Đang tải xuống CV PDF...')}
+                  {/* View Original CV Online */}
+                  <button
+                    onClick={() => {
+                      setCvViewMode('pdf')
+                      setCvModalOpen(true)
+                    }}
                     className="inline-flex items-center gap-2.5 px-6 py-3.5 bg-gradient-to-r from-indigo-600 via-indigo-500 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold text-sm rounded-xl shadow-xl shadow-indigo-600/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
                   >
-                    <Download size={18} />
-                    <span>{lang === 'en' ? 'Download Resume (PDF)' : 'Tải CV Bản Đẹp (PDF)'}</span>
-                  </a>
+                    <Eye size={18} />
+                    <span>{lang === 'en' ? 'View Original CV (Online)' : 'Xem CV Gốc Trực Tuyến'}</span>
+                  </button>
 
-                  {/* View CV ATS Modal */}
+                  {/* View ATS Resume */}
                   <button
-                    onClick={() => setCvModalOpen(true)}
+                    onClick={() => {
+                      setCvViewMode('ats')
+                      setCvModalOpen(true)
+                    }}
                     className={`inline-flex items-center gap-2 px-5 py-3.5 rounded-xl font-bold text-sm border transition-all ${
                       darkMode
                         ? 'bg-slate-900/90 border-slate-700 hover:border-indigo-500/50 text-slate-200 hover:bg-slate-800'
                         : 'bg-white border-slate-300 hover:border-indigo-600 text-slate-800 hover:bg-slate-50'
                     }`}
                   >
-                    <Eye size={17} className="text-indigo-400" />
+                    <FileText size={17} className="text-indigo-400" />
                     <span>{lang === 'en' ? 'View ATS Resume' : 'Xem CV Chuẩn ATS'}</span>
                   </button>
+
+                  {/* Download CV PDF Direct */}
+                  <a
+                    href="/cv.pdf"
+                    download="Huynh_Minh_An_FullStack_Developer_CV.pdf"
+                    onClick={() => showToast(lang === 'en' ? 'Downloading official CV (PDF)...' : 'Đang tải xuống CV PDF...')}
+                    className={`inline-flex items-center gap-2 px-4 py-3.5 rounded-xl font-semibold text-sm border transition-colors ${
+                      darkMode ? 'border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800' : 'border-slate-300 text-slate-700 hover:bg-slate-100'
+                    }`}
+                    title="Download Official PDF"
+                  >
+                    <Download size={16} />
+                    <span>PDF</span>
+                  </a>
 
                   {/* Explore Work */}
                   <a
                     href="#projects"
-                    className={`inline-flex items-center gap-2 px-5 py-3.5 rounded-xl font-semibold text-sm transition-colors ${
+                    className={`inline-flex items-center gap-2 px-4 py-3.5 rounded-xl font-semibold text-sm transition-colors ${
                       darkMode ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'
                     }`}
                   >
-                    <span>{lang === 'en' ? 'Explore Projects' : 'Xem các dự án'}</span>
+                    <span>{lang === 'en' ? 'Explore Projects' : 'Xem dự án'}</span>
                     <ArrowDown size={16} />
                   </a>
                 </div>
@@ -1897,54 +1950,93 @@ function App() {
             onClick={() => setCvModalOpen(false)}
           />
 
-          <div className="relative w-full max-w-4xl max-h-[92vh] overflow-y-auto rounded-3xl border border-slate-700 bg-white text-slate-900 shadow-2xl z-10 flex flex-col">
+          <div className={`relative w-full ${cvViewMode === 'pdf' ? 'max-w-5xl' : 'max-w-4xl'} max-h-[94vh] overflow-y-auto rounded-3xl border border-slate-700 bg-white text-slate-900 shadow-2xl z-10 flex flex-col`}>
             {/* Top Toolbar */}
-            <div className="sticky top-0 z-20 bg-slate-900 text-white px-6 py-4 flex items-center justify-between border-b border-slate-800">
-              <div className="flex items-center gap-3">
-                <FileText size={18} className="text-indigo-400" />
-                <span className="font-bold text-sm tracking-tight hidden sm:inline">
-                  Huỳnh Minh An — Engineering CV (ATS & Printable)
-                </span>
-                {/* Modal language toggle */}
-                <div className="p-0.5 rounded-lg bg-slate-800 border border-slate-700 flex items-center ml-2">
+            <div className="sticky top-0 z-20 bg-slate-900 text-white px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-3 border-b border-slate-800">
+              <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+                {/* View Mode Segmented Switcher */}
+                <div className="p-1 rounded-xl bg-slate-950 border border-slate-800 flex items-center shadow-inner">
                   <button
-                    onClick={() => setCvModalLangOverride('en')}
-                    className={`px-2 py-1 rounded text-[11px] font-bold ${
-                      activeCvLang === 'en' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'
+                    onClick={() => setCvViewMode('ats')}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                      cvViewMode === 'ats'
+                        ? 'bg-indigo-600 text-white shadow-sm'
+                        : 'text-slate-400 hover:text-white'
                     }`}
                   >
-                    EN
+                    <FileText size={14} />
+                    <span>{lang === 'en' ? 'ATS Resume (Text)' : 'Bản ATS (Text)'}</span>
                   </button>
                   <button
-                    onClick={() => setCvModalLangOverride('vi')}
-                    className={`px-2 py-1 rounded text-[11px] font-bold ${
-                      activeCvLang === 'vi' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'
+                    onClick={() => setCvViewMode('pdf')}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                      cvViewMode === 'pdf'
+                        ? 'bg-indigo-600 text-white shadow-sm'
+                        : 'text-slate-400 hover:text-white'
                     }`}
                   >
-                    VI
+                    <Eye size={14} />
+                    <span>{lang === 'en' ? 'Original CV (PDF Online)' : 'CV Gốc (PDF Online)'}</span>
                   </button>
                 </div>
+
+                {/* Modal language toggle (only for ATS view) */}
+                {cvViewMode === 'ats' && (
+                  <div className="p-0.5 rounded-lg bg-slate-800 border border-slate-700 flex items-center">
+                    <button
+                      onClick={() => setCvModalLangOverride('en')}
+                      className={`px-2 py-1 rounded text-[11px] font-bold ${
+                        activeCvLang === 'en' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      EN
+                    </button>
+                    <button
+                      onClick={() => setCvModalLangOverride('vi')}
+                      className={`px-2 py-1 rounded text-[11px] font-bold ${
+                        activeCvLang === 'vi' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      VI
+                    </button>
+                  </div>
+                )}
+
+                {/* Open in new tab (only for PDF view) */}
+                {cvViewMode === 'pdf' && (
+                  <a
+                    href="/cv.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition-colors"
+                  >
+                    <ExternalLink size={13} />
+                    <span className="hidden sm:inline">{lang === 'en' ? 'Full Tab' : 'Mở tab mới'}</span>
+                  </a>
+                )}
               </div>
 
               <div className="flex items-center gap-2">
-                {/* Print button */}
-                <button
-                  onClick={() => window.print()}
-                  className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold flex items-center gap-1.5 transition-colors"
-                  title="Print / Save to PDF"
-                >
-                  <Printer size={14} />
-                  <span className="hidden sm:inline">{activeCvLang === 'en' ? 'Print / PDF' : 'In CV'}</span>
-                </button>
+                {/* Print button (only for ATS) */}
+                {cvViewMode === 'ats' && (
+                  <button
+                    onClick={() => window.print()}
+                    className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold flex items-center gap-1.5 transition-colors"
+                    title="Print / Save to PDF"
+                  >
+                    <Printer size={14} />
+                    <span className="hidden sm:inline">{activeCvLang === 'en' ? 'Print' : 'In'}</span>
+                  </button>
+                )}
 
                 {/* Direct download PDF */}
                 <a
                   href="/cv.pdf"
                   download="Huynh_Minh_An_FullStack_Developer_CV.pdf"
-                  className="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold flex items-center gap-1.5 transition-colors"
+                  className="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold flex items-center gap-1.5 transition-colors shadow-sm"
                 >
                   <Download size={14} />
-                  <span>Download PDF</span>
+                  <span>{lang === 'en' ? 'Download PDF' : 'Tải PDF'}</span>
                 </a>
 
                 {/* Close modal */}
@@ -1958,8 +2050,17 @@ function App() {
               </div>
             </div>
 
-            {/* ATS Printable Resume Body */}
-            <div className="p-8 sm:p-12 space-y-8 bg-white text-slate-900 text-left cv-printable">
+            {/* Modal Body: Switch between PDF Embed and ATS Printable Resume */}
+            {cvViewMode === 'pdf' ? (
+              <div className="p-2 sm:p-4 bg-slate-950 flex flex-col flex-1 h-[82vh] min-h-[620px]">
+                <iframe
+                  src="/cv.pdf#toolbar=1&navpanes=0&scrollbar=1"
+                  title="Huỳnh Minh An — Original CV PDF"
+                  className="w-full flex-1 rounded-2xl border border-slate-800 bg-slate-900 shadow-inner"
+                />
+              </div>
+            ) : (
+              <div className="p-8 sm:p-12 space-y-8 bg-white text-slate-900 text-left cv-printable">
               {/* Header Info */}
               <div className="border-b border-slate-200 pb-6 space-y-2">
                 <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
@@ -2086,6 +2187,7 @@ function App() {
                 </div>
               </div>
             </div>
+            )}
           </div>
         </div>
       )}
